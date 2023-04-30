@@ -9,7 +9,11 @@ builder.Services.AddMediatR(conf => conf.RegisterServicesFromAssemblies(AppDomai
 
 builder.Services.AddDbContext<ButtlerContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IGetAllFoodItemsQueryRepo, GetAllFoodItemsQueryRepo>();
+builder.Services.AddScoped<IGetAllFoodItemsRepo, GetAllFoodItemsRepo>();
+builder.Services.AddScoped<ICustomerDetailsRepo, CustomerDetailsRepo>();
+builder.Services.AddScoped<ITablesRepo, TablesRepo>();
+builder.Services.AddScoped<ICustomersOrderRepo, CustomersOrderRepo>();
+builder.Services.AddScoped<IOrderItemsRepo, OrderItemsRepo>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

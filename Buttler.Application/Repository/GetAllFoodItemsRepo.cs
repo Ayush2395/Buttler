@@ -3,11 +3,11 @@ using Domain.Data;
 
 namespace Buttler.Application.Repository
 {
-    public class GetAllFoodItemsQueryRepo : IGetAllFoodItemsQueryRepo
+    public class GetAllFoodItemsRepo : IGetAllFoodItemsRepo
     {
         readonly ButtlerContext _context;
 
-        public GetAllFoodItemsQueryRepo(ButtlerContext context)
+        public GetAllFoodItemsRepo(ButtlerContext context)
         {
             _context = context;
         }
@@ -25,7 +25,7 @@ namespace Buttler.Application.Repository
         }
     }
 
-    public interface IGetAllFoodItemsQueryRepo
+    public interface IGetAllFoodItemsRepo
     {
         IList<FoodDto> GetAllFood();
     }
