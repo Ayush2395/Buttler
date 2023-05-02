@@ -5,13 +5,13 @@ using MediatR;
 
 namespace Buttler.Application.Command
 {
-    public class CustomerDetailCommand : IRequest<Customer>
+    public class CustomerDetailCommand : IRequest<ResultDto<CustomerDto>>
     {
         public TablesDto Tables { get; set; }
         public CustomerDto Customer { get; set; }
         public int CustomerId { get; set; }
 
-        public class Handler : IRequestHandler<CustomerDetailCommand, Customer>
+        public class Handler : IRequestHandler<CustomerDetailCommand, ResultDto<CustomerDto>>
         {
             readonly ICustomerDetailsRepo _repo;
 
@@ -20,7 +20,7 @@ namespace Buttler.Application.Command
                 _repo = repo;
             }
 
-            public Task<Customer> Handle(CustomerDetailCommand request, CancellationToken cancellationToken)
+            public Task<ResultDto<CustomerDto>> Handle(CustomerDetailCommand request, CancellationToken cancellationToken)
             {
                 return _repo.AddCustomerDetails(request.Customer);
             }

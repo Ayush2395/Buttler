@@ -47,7 +47,7 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "Buttler_DB",
+   "UiHint": "Buttler_DB_01",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,

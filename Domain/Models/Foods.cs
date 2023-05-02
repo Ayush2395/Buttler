@@ -17,7 +17,7 @@ namespace Domain.Models
         public string Description { get; set; }
         public decimal? Price { get; set; }
         public string FoodPlateSize { get; set; }
-        public byte[] FoodImg { get; set; }
+        public string FoodImg { get; set; }
 
         public virtual ICollection<OrderItems> OrderItems { get; set; }
     }

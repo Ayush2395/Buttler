@@ -13,7 +13,7 @@ namespace Buttler.Application.Repository
             _context = context;
         }
 
-        public async Task<Customer> AddCustomerDetails(CustomerDto customer)
+        public async Task<ResultDto<CustomerDto>> AddCustomerDetails(CustomerDto customer)
         {
             if (customer != null)
             {
@@ -25,13 +25,13 @@ namespace Buttler.Application.Repository
                 });
 
                 await _context.SaveChangesAsync();
-                return result.Entity;
+                return new ResultDto<CustomerDto>("Customer data filled.", true);
             }
             return null!;
         }
     }
     public interface ICustomerDetailsRepo
     {
-        Task<Customer> AddCustomerDetails(CustomerDto customer);
+        Task<ResultDto<CustomerDto>> AddCustomerDetails(CustomerDto customer);
     }
 }

@@ -21,10 +21,10 @@ namespace Buttler.API.Controllers
         [Route("AddCustomerDetails")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Customer>> AddCustomer(CustomerDto customer)
+        public async Task<ActionResult<CustomerDto>> AddCustomer(CustomerDto customer)
         {
             var details = await _mediator.Send(new CustomerDetailCommand { Customer = customer });
-            return details != null ? Ok("Customer details saved.") : BadRequest("Please fill the customer details.");
+            return details != null ? Ok(details) : BadRequest("Please fill the customer details.");
         }
 
         [HttpPost]
@@ -44,7 +44,7 @@ namespace Buttler.API.Controllers
         public async Task<ActionResult<OrdersDto>> PlaceOrderByCustomer(OrdersDto orders)
         {
             var result = await _mediator.Send(new OrderItemsCommand { Order = orders });
-            return result != null ? Ok("Order has been booked.") : BadRequest();
+            return result != null ? Ok(result) : BadRequest();
         }
     }
 }

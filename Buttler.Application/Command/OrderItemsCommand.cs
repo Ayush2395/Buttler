@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Buttler.Application.Command
 {
-    public class OrderItemsCommand : IRequest<OrdersDto>
+    public class OrderItemsCommand : IRequest<ResultDto<OrdersDto>>
     {
         public OrdersDto Order { get; set; }
 
-        public class Handler : IRequestHandler<OrderItemsCommand, OrdersDto>
+        public class Handler : IRequestHandler<OrderItemsCommand, ResultDto<OrdersDto>>
         {
             readonly IOrderItemsRepo _repo;
 
@@ -20,7 +20,7 @@ namespace Buttler.Application.Command
                 _repo = repo;
             }
 
-            public Task<OrdersDto> Handle(OrderItemsCommand request, CancellationToken cancellationToken)
+            public Task<ResultDto<OrdersDto>> Handle(OrderItemsCommand request, CancellationToken cancellationToken)
             {
                 return _repo.OrderByCustomer(request.Order);
             }

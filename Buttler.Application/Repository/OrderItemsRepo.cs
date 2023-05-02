@@ -14,14 +14,13 @@ namespace Buttler.Application.Repository
             _context = context;
         }
 
-        public async Task<OrdersDto> OrderByCustomer(OrdersDto order)
+        public async Task<ResultDto<OrdersDto>> OrderByCustomer(OrdersDto order)
         {
             var table = await _context.Tables
                 .FirstOrDefaultAsync(rec => rec.CustomerId == order.CustomerId);
-            dynamic orderbyCustomer = null!;
             if (table != null)
             {
-                orderbyCustomer = _context.OrderMaster
+                _context.OrderMaster
                     .Add(new()
                     {
                         CustomerId = order.CustomerId,
@@ -43,22 +42,23 @@ namespace Buttler.Application.Repository
                         _context.OrderItems.Add(new()
                         {
                             FoodId = foodItems.FoodId,
-                            OrderItemsId = ordMstId.OrderMasterId,
+                            OrderMasterId = ordMstId.OrderMasterId,
                             Qty = foodItems.Qty,
                         });
                         bill += foodItems.Qty * foodItems.Price;
-                        _context.SaveChanges();
+                        //_context.SaveChanges();
                     }
                     ordMstId.Bill = bill;
                     _context.SaveChanges();
                 }
+                return new ResultDto<OrdersDto>("Order booked", true);
             }
-            return Task.FromResult(orderbyCustomer);
+            return new ResultDto<OrdersDto>();
         }
     }
 
     public interface IOrderItemsRepo
     {
-        Task<OrdersDto> OrderByCustomer(OrdersDto order);
+        Task<ResultDto<OrdersDto>> OrderByCustomer(OrdersDto order);
     }
 }
