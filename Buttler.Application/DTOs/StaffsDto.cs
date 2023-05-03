@@ -1,13 +1,23 @@
-﻿namespace Buttler.Application.DTOs
+﻿using System.Text.Json.Serialization;
+
+namespace Buttler.Application.DTOs
 {
-    public class StaffsDto : StaffDetails
+    public class StaffsDto
     {
+        [JsonIgnore]
         public string StaffId { get; set; }
+        [JsonIgnore]
         public string StaffType { get; set; } = "staff";
+
+        [JsonIgnore]
         public DateTime? StaffLastLogin { get; set; }
+
+        [JsonIgnore]
         public string StaffSq { get; set; }
+        [JsonIgnore]
         public string StaffSa { get; set; }
         public string StaffPwd { get; set; }
+        public string Email { get; set; }
     }
 
     public class StaffDetails

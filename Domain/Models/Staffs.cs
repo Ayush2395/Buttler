@@ -18,6 +18,7 @@ namespace Domain.Models
         public string StaffSq { get; set; }
         public string StaffSa { get; set; }
         public string StaffPwd { get; set; }
+        public string StaffEmail { get; set; }
 
         public virtual StaffDetails StaffDetails { get; set; }
         public virtual ICollection<OrderMaster> OrderMaster { get; set; }

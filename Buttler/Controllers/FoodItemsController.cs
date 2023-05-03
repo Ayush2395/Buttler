@@ -1,9 +1,11 @@
 ﻿using Buttler.Application.Query;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Buttler.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]

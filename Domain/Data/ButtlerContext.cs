@@ -32,7 +32,6 @@ namespace Domain.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=tcp:test-server-buttler.database.windows.net,1433;Initial Catalog=Test_DB;Persist Security Info=False;User ID=test;Password=barsha@2000;Multiple Active Result Sets=False;Connect Timeout=30;Encrypt=True");
             }
         }
@@ -171,6 +170,8 @@ namespace Domain.Data
                 entity.Property(e => e.StaffId)
                     .HasMaxLength(10)
                     .IsUnicode(false);
+
+                entity.Property(e => e.StaffEmail).HasMaxLength(128);
 
                 entity.Property(e => e.StaffLastLogin).HasColumnType("datetime");
 

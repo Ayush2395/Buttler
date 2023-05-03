@@ -9,7 +9,6 @@ namespace Buttler.Application.DTOs
 {
     public class ResultDto<T>
     {
-        [JsonIgnore]
         public T Data { get; set; }
         public string Message { get; set; }
         public bool IsSuccess { get; set; }

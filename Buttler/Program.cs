@@ -4,6 +4,7 @@ using Domain.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddScoped<ICustomerDetailsRepo, CustomerDetailsRepo>();
 builder.Services.AddScoped<ITablesRepo, TablesRepo>();
 builder.Services.AddScoped<ICustomersOrderRepo, CustomersOrderRepo>();
 builder.Services.AddScoped<IOrderItemsRepo, OrderItemsRepo>();
+builder.Services.AddTransient<ITokenGenerate, TokenGenerate>();
 
 builder.Services.AddAuthentication(opt =>
 {
@@ -29,7 +31,7 @@ builder.Services.AddAuthentication(opt =>
 }).AddJwtBearer(opt =>
 {
     opt.RequireHttpsMetadata = false;
-    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    opt.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -42,46 +44,31 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen(opt =>
-//{
-//    opt.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-//    {
-//        Version = "v1",
-//        Title = "Buttler API",
-//        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-//        {
-//            Name = "Ayush",
-//            Email = "ak005355@gmail.com",
-//            Url = new Uri("https://github.com/Ayush2395")
-//        },
-//        Description = "This is web api for buttler application.",
-//        License = new Microsoft.OpenApi.Models.OpenApiLicense
-//        {
-//            Name = "Licence",
-//            Url = new Uri("https://example.com")
-//        }
-//    });
-//});
-
-builder.Services.AddSwaggerDocument(conf =>
+builder.Services.AddSwaggerGen(opt =>
 {
-    conf.PostProcess = doc =>
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        doc.Info.Title = "Buttler API";
-        doc.Info.Version = "v1";
-        doc.Info.Contact = new NSwag.OpenApiContact
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
-            Name = "Ayush",
-            Email = "ak005355@gmail.com",
-            Url = "https://github.com/Ayush2395"
-        };
-        doc.Info.Description = "This is API for Buttler";
-        doc.Info.License = new NSwag.OpenApiLicense
-        {
-            Name = "License",
-            Url = string.Empty
-        };
-    };
+            new OpenApiSecurityScheme
+            {
+                Reference= new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
 });
 
 var app = builder.Build();
@@ -89,8 +76,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseOpenApi();
-    app.UseSwaggerUi3();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
