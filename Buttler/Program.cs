@@ -22,7 +22,8 @@ builder.Services.AddScoped<ICustomerDetailsRepo, CustomerDetailsRepo>();
 builder.Services.AddScoped<ITablesRepo, TablesRepo>();
 builder.Services.AddScoped<ICustomersOrderRepo, CustomersOrderRepo>();
 builder.Services.AddScoped<IOrderItemsRepo, OrderItemsRepo>();
-builder.Services.AddTransient<ITokenGenerate, TokenGenerate>();
+builder.Services.AddScoped<ITokenGenerate, TokenGenerate>();
+builder.Services.AddScoped<ILoginRepo, LoginRepo>();
 
 builder.Services.AddAuthentication(opt =>
 {

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Buttler.Application.Enums;
+using System.Text.Json.Serialization;
 
 namespace Buttler.Application.DTOs
 {
@@ -7,7 +8,7 @@ namespace Buttler.Application.DTOs
         [JsonIgnore]
         public string StaffId { get; set; }
         [JsonIgnore]
-        public string StaffType { get; set; } = "staff";
+        public string StaffType { get; set; } = UserType.UserTypeEnum.staff.ToString();
 
         [JsonIgnore]
         public DateTime? StaffLastLogin { get; set; }
@@ -20,8 +21,10 @@ namespace Buttler.Application.DTOs
         public string Email { get; set; }
     }
 
-    public class StaffDetails
+    public class StaffDetailsDto
     {
+        [JsonIgnore]
+        public string StaffId { get; set; }
         public string StaffName { get; set; }
         public string StaffGender { get; set; }
         public string StaffPhoneNumber { get; set; }

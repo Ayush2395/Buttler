@@ -1,5 +1,8 @@
 ﻿using Buttler.API.Models;
 using Buttler.Application.DTOs;
+using Buttler.Application.Query;
+using Buttler.Application.Repository;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +24,8 @@ namespace Buttler.API.Controllers
         [ProducesResponseType(401)]
         public ActionResult<ResultDto<AuthenticationModel>> GenerateToken(string id, string email, string pwd)
         {
-            return Ok(_token.GenerateAccessToken(id, email, pwd));
+            var token = _token.GenerateAccessToken(id, email, pwd);
+            return token != null ? Ok(token) : BadRequest("Wrong credentials");
         }
     }
 }

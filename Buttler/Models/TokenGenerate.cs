@@ -23,14 +23,17 @@ namespace Buttler.API.Models
         public ResultDto<AuthenticationModel> GenerateAccessToken(string id, string email, string pwd)
         {
             var staffUser = _context.Staffs.FirstOrDefault(rec => rec.StaffId == id);
+            var staffDetails = _context.StaffDetails.FirstOrDefault(rec => rec.StaffId == id);
             if (staffUser != null)
             {
-                if (staffUser.StaffEmail == email && staffUser.StaffPwd == pwd)
+                if (staffUser.StaffEmail == email && staffUser.StaffPwd == pwd && staffDetails != null)
                 {
                     var claims = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Email, staffUser.StaffEmail),
                         new Claim("staffPwd", staffUser.StaffPwd),
+                        new Claim("UserId", staffUser.StaffId),
+                        new Claim("UserName", staffDetails.StaffName),
                         new Claim(JwtRegisteredClaimNames.Sub, _jwtsettings.Subject),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.ToString()),
@@ -45,8 +48,15 @@ namespace Buttler.API.Models
                         signingCredentials: signIn
                         );
                     var tokenCreated = new JwtSecurityTokenHandler().WriteToken(token);
-                    var authData = new AuthenticationModel() { AccessToken = tokenCreated, Email = staffUser.StaffEmail, ExpiresIn = DateTime.UtcNow.AddMinutes(2) };
-                    return new ResultDto<AuthenticationModel>(authData);
+                    var authData = new AuthenticationModel()
+                    {
+                        AccessToken = tokenCreated,
+                        Email = staffUser.StaffEmail,
+                        ExpiresIn = DateTime.UtcNow.AddMinutes(2),
+                        UserId = staffUser.StaffId,
+                        UserName = staffDetails.StaffName,
+                    };
+                    return new ResultDto<AuthenticationModel>(authData, true);
                 }
             }
             else

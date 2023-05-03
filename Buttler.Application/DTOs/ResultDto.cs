@@ -20,6 +20,11 @@ namespace Buttler.Application.DTOs
             IsSuccess = isSuccess;
         }
 
+        public ResultDto(T data, bool isSuccess) : this(data)
+        {
+            IsSuccess = isSuccess;
+        }
+
         public ResultDto(string message, bool isSuccess)
         {
             Message = message;

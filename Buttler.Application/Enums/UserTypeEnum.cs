@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Buttler.Application.Enums
 {
-    public enum UserTypeEnum
+    public class UserType
     {
-        staff, admin
+        public enum UserTypeEnum
+        {
+            staff, admin
+        }
     }
 }
